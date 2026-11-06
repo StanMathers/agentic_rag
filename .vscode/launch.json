@@ -9,7 +9,17 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            // Run from the project root so relative paths (.env, .chroma) resolve
+            // the same way they do when running main.py.
+            "cwd": "${workspaceFolder}",
+            // Put the project root on sys.path so absolute imports like
+            // `from graph.state import GraphState` work from any nested file.
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "justMyCode": true
         }
     ]
 }

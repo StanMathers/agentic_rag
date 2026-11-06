@@ -37,4 +37,3 @@ retriever = Chroma(
     persist_directory="./.chroma",
     embedding_function=OllamaEmbeddings(model="nomic-embed-text"),
 ).as_retriever()
-

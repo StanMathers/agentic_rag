@@ -1,10 +1,12 @@
 from typing import Any, Dict
+
+from config.logger import logger
 from graph.chains.generation import generation_chain
 from graph.state import GraphState
 
 
 def generate(state: GraphState) -> Dict[str, Any]:
-    print("Generating answer...")
+    logger.info("Generating answer")
 
     question = state["question"]
     documents = state["documents"]

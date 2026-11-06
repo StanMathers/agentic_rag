@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_tavily import TavilySearch
 
+from config.logger import logger
 from graph.state import GraphState
 
 load_dotenv()
@@ -13,12 +14,14 @@ web_search_tool = TavilySearch(max_results=3)
 
 
 def web_search(state: GraphState) -> Dict[str, Any]:
-    print("Performing web search...")
-
     question = state["question"]
     documents = state["documents"]
+    logger.info("Performing web search", extra={"question": question})
 
     tavily_results = web_search_tool.invoke({"query": question})
+    logger.info(
+        "Web search finished", extra={"num_results": len(tavily_results["results"])}
+    )
     joined_tavily_results = "\n".join(
         [tavily_result["content"] for tavily_result in tavily_results["results"]]
     )

@@ -1,5 +1,6 @@
 from typing import Any, Dict
 
+from config.logger import logger
 from graph.chains.retrieval_grader import GradeDocuments, retrieval_grader
 from graph.state import GraphState
 
@@ -26,14 +27,23 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
             {"question": question, "document": doc.page_content}
         )
 
+        source = doc.metadata.get("source")
         if score.binary_score.lower() == "yes":
-            print("Document relevant")
+            logger.info("Document relevant", extra={"source": source})
             filtered_documents.append(doc)
         else:
-            print("Document not relevant")
+            logger.info("Document not relevant", extra={"source": source})
             web_search = True
             continue
 
+    logger.info(
+        "Graded documents",
+        extra={
+            "num_relevant": len(filtered_documents),
+            "num_total": len(documents),
+            "web_search": web_search,
+        },
+    )
     return {
         "documents": filtered_documents,
         "question": question,

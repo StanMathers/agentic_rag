@@ -38,4 +38,3 @@ retriever = Chroma(
     embedding_function=OllamaEmbeddings(model="nomic-embed-text"),
 ).as_retriever()
 
-print(docs_list)

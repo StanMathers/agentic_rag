@@ -1,0 +1,21 @@
+services:
+  chroma:
+    image: chromadb/chroma:1.5.9
+    container_name: chroma
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/data
+    environment:
+      - ANONYMIZED_TELEMETRY=FALSE
+    networks:
+      - agentic_rag
+
+volumes:
+  chroma_data:
+
+networks:
+  agentic_rag:
+    name: agentic_rag
+    driver: bridge

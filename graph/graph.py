@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 
 from langgraph.graph import END, StateGraph
 
+from config.logger import logger
 from graph.chains.answer_grader import answer_grader
 from graph.chains.hallucination_grader import hallucination_grader
 from graph.consts import RETRIEVE, GRADE_DOCUMENTS, GENERATE, WEB_SEARCH
@@ -21,7 +22,7 @@ def decide_to_generate(state):
 
 
 def grade_generation_grounded_in_documents_and_question(state: GraphState):
-    print("Checking hallucinations")
+    logger.info("Checking hallucinations")
 
     documents = state["documents"]
     question = state["question"]
@@ -32,18 +33,18 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState):
     )
 
     if hallucination_grade := score.binary_score:
-        print("Generation is grounded in documents")
-        print("Grade generation vs question")
+        logger.info("Generation is grounded in documents")
+        logger.info("Grading generation vs question")
 
         score = answer_grader.invoke({"question": question, "generation": generation})
         if answer_grade := score.binary_score:
-            print("Generation addresses question")
+            logger.info("Generation addresses question")
             return "useful"
         else:
-            print("Generation does not address question")
+            logger.warning("Generation does not address question")
             return "not useful"
     else:
-        print("Generation is not grounded in documents")
+        logger.warning("Generation is not grounded in documents")
         return "not useful"
 
 

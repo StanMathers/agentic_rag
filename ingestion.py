@@ -12,17 +12,17 @@ urls = [
     "https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/",
 ]
 
-docs = [
-    UnstructuredLoader(
-        web_url=url, chunking_stategy="basic", max_characters=1000000
-    ).load()
-    for url in urls
-]
-docs_list = [item for sublist in docs for item in sublist]
+# # docs = [
+# #     UnstructuredLoader(
+# #         web_url=url, chunking_stategy="basic", max_characters=1000000
+# #     ).load()
+# #     for url in urls
+# # ]
+# docs_list = [item for sublist in docs for item in sublist]
 text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
     chunk_size=250, chunk_overlap=0
 )
-doc_splits = text_splitter.split_documents(docs_list)
+# doc_splits = text_splitter.split_documents(docs_list)
 
 # vectorstore = Chroma.from_documents(
 #     documents=doc_splits,

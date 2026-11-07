@@ -1,0 +1,24 @@
+# Local environments and secrets — never send to the build
+env/
+.venv/
+.env
+.env.*
+
+# Local data
+.chroma/
+
+# Tooling and caches
+.git
+.gitignore
+.vscode
+.pytest_cache
+**/__pycache__
+**/*.py[cod]
+
+# Not needed in the image
+*.png
+docs/
+README.md
+Dockerfile
+.dockerignore
+docker-compose.yml

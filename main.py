@@ -7,7 +7,7 @@ from graph.graph import app
 
 if __name__ == "__main__":
     set_request_id()
-    question = "What is agent memory?"
+    question = "How to make pizza?"
     logger.info("Invoking graph", extra={"question": question})
     result = app.invoke(input={"question": question})
     logger.info("Graph finished", extra={"generation": result.get("generation")})

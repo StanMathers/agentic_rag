@@ -12,6 +12,25 @@ services:
     networks:
       - agentic_rag
 
+  agentic_rag_backend:
+    build: .
+    image: agentic-rag-backend:latest
+    container_name: agentic_rag_backend
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./.chroma:/app/.chroma
+    networks:
+      - agentic_rag
+
 volumes:
   chroma_data:
 
